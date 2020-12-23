@@ -20,59 +20,63 @@ struct Shipment {
     
     init() { }
     
-    var id: Int = 0
-    var user_id: Int = 0
-    var name: String = ""
-    var phone: String = ""
-    var address1: String = ""
-    var address2: String = ""
-    var city: String = ""
-    var provinceCode: String = ""
-    var postalCode: String = ""
-    var countryCode: String = ""
-    var returnName: String = ""
-    var returnPhone: String = ""
-    var returnAddress1: String = ""
-    var returnAddress2: String = ""
-    var returnCity: String = ""
-    var returnProvinceCode: String = ""
-    var returnPostalCode: String = ""
-    var returnCountryCode: String = ""
-    var isFBA: Bool = false
-    var needsPostage: Bool = true
-    var isPostagePaid: Bool = false
-    var tier: String = ""
-    var packageContents: String = ""
+    func toJson() -> JSON {
+        return JSON()
+    }
+    
+    var id: Int?
+    var user_id: Int?
+    var name: String?
+    var phone: String?
+    var address1: String?
+    var address2: String?
+    var city: String?
+    var provinceCode: String?
+    var postalCode: String?
+    var countryCode: String?
+    var returnName: String?
+    var returnPhone: String?
+    var returnAddress1: String?
+    var returnAddress2: String?
+    var returnCity: String?
+    var returnProvinceCode: String?
+    var returnPostalCode: String?
+    var returnCountryCode: String?
+    var isFBA: Bool?
+    var needsPostage: Bool?
+    var isPostagePaid: Bool?
+    var tier: String?
+    var packageContents: String?
     var dropOffDate: Date?
-    var dropOffLocation: String = ""
-    var value: Float = 0.0
-    var currency: String = ""
-    var tax: Float  = 0.0
-    var orderID: Int = 0
-    var orderStore: String = ""
-    var length: Float = 0.0
-    var width: Float = 0.0
-    var height: Float = 0.0
-    var sizeUnit: String = ""
-    var weight: Float = 0.0
-    var weightUnit: String = ""
-    var signatureConfirmation: Bool = false
-    var postageRate: Float = 0.0
+    var dropOffLocation: String?
+    var value: Float?
+    var currency: String?
+    var tax: Float?
+    var orderID: Int?
+    var orderStore: String?
+    var length: Float?
+    var width: Float?
+    var height: Float?
+    var sizeUnit: String?
+    var weight: Float?
+    var weightUnit: String?
+    var signatureConfirmation: Bool?
+    var postageRate: Float?
     var postageExpiryDate: Date?
-    var packageTypeID: String = ""
-    var postageTypeID: String = ""
-    var totalAmountPaid: Float = 0.0
+    var packageTypeID: String?
+    var postageTypeID: String?
+    var totalAmountPaid: Float?
     var shipDate: Date?
-    var shipCode: String = ""
-    var trackingStatus: String = ""
-    var trackingCode: String = ""
-    var trackingURL: String = ""
-    var statusID: Int = 0
-    var handlingFee: Float = 0.0
-    var barcode: String = ""
+    var shipCode: String?
+    var trackingStatus: String?
+    var trackingCode: String?
+    var trackingURL: String?
+    var statusID: Int?
+    var handlingFee: Float?
+    var barcode: String?
     var createdAt: Date?
     var updatedAt: Date?
     var deletedAt: Date?
-    var labelAvailable: Bool = false
+    var labelAvailable: Bool?
 
 }

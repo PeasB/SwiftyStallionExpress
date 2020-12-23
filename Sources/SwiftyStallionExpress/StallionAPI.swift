@@ -33,7 +33,26 @@ class StallionAPI {
                     completion(nil, resource.shipments)
 
                 case .error(let error):
-                    completion(error, [])
+                    completion(error, nil)
+            }
+        }
+    }
+    
+    func createShipment(shipment: Shipment, completion: @escaping (_ error: APIError?, _ label: String?, _ shipment: Shipment?) -> Void) {
+        guard let request = createShipmentRequest(shipment: shipment) else {
+            return completion(APIError.malformedRequest("Shipment does not have required fields"), nil, nil)
+        }
+        
+        api.fetch(request) { response in
+            switch response {
+                case .resource(let resource):
+                    guard resource.success == true else {
+                        return completion(APIError.InternalError(resource.message ?? resource.errors), nil, nil)
+                    }
+                    
+                    completion(nil, resource.label, resource.shipment)
+                case .error(let error):
+                    completion(error, nil, nil)
             }
         }
     }

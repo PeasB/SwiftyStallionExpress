@@ -23,7 +23,7 @@ final class API {
         
 
         guard let urlRequest = request.request(api: self) else {
-            completion?(.error(.malformedRequest))
+            completion?(.error(.malformedRequest("Malformed Request URL")))
             return nil
         }
 
