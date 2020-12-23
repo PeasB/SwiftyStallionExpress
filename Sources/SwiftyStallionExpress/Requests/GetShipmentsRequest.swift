@@ -54,4 +54,12 @@ class getShipmentsResource: APIResource {
         }
         return shipments
     }
+    
+    var message: String? {
+        return raw?["message"].stringValue
+    }
+    
+    var errors: String? {
+        return raw?["errors"].stringValue
+    }
 }

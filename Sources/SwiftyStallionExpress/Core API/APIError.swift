@@ -12,11 +12,14 @@ enum APIError: CustomStringConvertible {
     case noData
     case malformedRequest
     case notSecured
+    case InternalError(String?)
 
     var description: String {
         switch self {
         case .error(let error):
             return error.localizedDescription
+        case .InternalError(let message):
+            return message ?? "unknown"
         default:
             return Mirror(reflecting: self).children.first?.label ?? "unknown"
         }

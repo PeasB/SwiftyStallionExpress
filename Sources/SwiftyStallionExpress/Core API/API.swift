@@ -31,6 +31,14 @@ final class API {
         configuration.timeoutIntervalForRequest = 30
         let session = URLSession(configuration: configuration)
         
+        #if DEBUG
+        var body = ""
+        if let data = request.body() {
+            body = ": \(String(data: data, encoding: .utf8) ?? "")"
+        }
+        
+        print("[REST][REQUEST]: \(urlRequest.url?.absoluteString ?? "")\(body)")
+        #endif
         let task = session.dataTask(with: urlRequest) { (data, _, error) in
             func completeWithResponse(_ response: APIResponse<R.APIResourceType>) {
                 DispatchQueue.main.async {
@@ -40,16 +48,26 @@ final class API {
 
             //Check for error.
             if let error = error as NSError? {
+                #if DEBUG
+                print("[REST][RESULT][ERROR][\(urlRequest.url?.absoluteString ?? "")]: \(error)")
+                #endif
                 completeWithResponse(.error(.error(error)))
             }
 
             guard let data = data else {
+                #if DEBUG
+                print("[REST][RESULT][\(urlRequest.url?.absoluteString ?? "")]: No data.")
+                #endif
                 completeWithResponse(.error(.noData))
                 return
             }
 
             let json = try? JSON(data: data)
             completeWithResponse(APIResponse<R.APIResourceType>.resource(R.APIResourceType(raw: json)))
+            
+            #if DEBUG
+            print("[REST][RESULT][\(urlRequest.url?.absoluteString ?? "")]: \(json?.rawString() ?? "").")
+            #endif
         }
 
         task.resume()

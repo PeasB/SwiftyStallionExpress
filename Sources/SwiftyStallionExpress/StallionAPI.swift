@@ -7,7 +7,7 @@
 
 import Foundation
 
-fileprivate let baseURL = "ship.stallionexpress.ca/api/v1"
+fileprivate let baseURL = "https://ship.stallionexpress.ca/api/v1"
 
 class StallionAPI {
     
@@ -19,13 +19,19 @@ class StallionAPI {
     
     //TODO: API requests here.
     
-    func getShipments(status: String?, fromDate: Date?, toDate: Date?, completion: @escaping (_ error: APIError?, _ Shipments: [Shipment]) -> Void) {
+    func getShipments(status: String? = nil, fromDate: Date? = nil, toDate: Date? = nil, completion: @escaping (_ error: APIError?, _ Shipments: [Shipment]?) -> Void) {
         
         let request = getShipmentsRequest(status: status, fromDate: fromDate, toDate: toDate)
         api.fetch(request) { response in
             switch response {
                 case .resource(let resource):
-                    completion(nil, resource.shipments ?? [])
+                    guard resource.success == true else {
+                        //the request failed so we give an internal error and any informaton we have.
+                        return completion(APIError.InternalError(resource.message ?? resource.errors), nil)
+                    }
+                    
+                    completion(nil, resource.shipments)
+
                 case .error(let error):
                     completion(error, [])
             }
