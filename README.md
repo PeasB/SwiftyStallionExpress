@@ -1,6 +1,8 @@
 # SwiftyStallionExpress
 
-A Simple Swift Implementation of the Stallion Express API outlined here: https://app.swaggerhub.com/apis/nonibrands/StallionExpress/1.0.2. Only 3 requests are currently implemented.
+A Simple Swift Implementation of the Stallion Express API outlined here: https://app.swaggerhub.com/apis/nonibrands/StallionExpress/1.0.2.
+
+Only 3 requests are currently implemented.
 
 ## TODO
 
