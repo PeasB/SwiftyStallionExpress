@@ -13,8 +13,8 @@ class StallionAPI {
     
     private let api: API
 
-    init(token: String) {
-        self.api = API(baseURL: baseURL, token: token)
+    init(token: String, api: API? = nil) {
+        self.api = api ?? API(baseURL: baseURL, token: token)
     }
     
     //TODO: API requests here.
@@ -54,6 +54,28 @@ class StallionAPI {
                 case .error(let error):
                     completion(error, nil, nil)
             }
+        }
+    }
+    
+    func getRates(shipment: Shipment, completion: @escaping (_ error: APIError?, _ rates: [Rate]?) -> Void) {
+        guard let request = getRatesRequest(shipment: shipment) else {
+            return completion(APIError.malformedRequest("Shipment does not have required fields"), nil)
+        }
+        
+        api.fetch(request) { response in
+            switch response {
+            case .resource(let resource):
+                guard resource.success == true else {
+                    //the request failed so we give an internal error and any informaton we have.
+                    return completion(APIError.InternalError(resource.message ?? resource.errors), nil)
+                }
+                
+                completion(nil, resource.rates)
+
+            case .error(let error):
+                completion(error, nil)
+            }
+            
         }
     }
     

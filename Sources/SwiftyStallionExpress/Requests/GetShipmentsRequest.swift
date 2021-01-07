@@ -14,7 +14,7 @@ class getShipmentsRequest: APIRequest {
     
     let path: String = "/shipments"
     let method: HTTPMethod = .get
-    var query: String?
+    let query: String?
     
     var status: String?
     var fromDate: Date?
@@ -26,14 +26,16 @@ class getShipmentsRequest: APIRequest {
         self.toDate = toDate
         
         //Add Query Args.
-        query?.appendIfNotNil(status) { "status=\($0)" }
-        
-        //TODO: Clean up argument Concat.
-        if !(query?.isEmpty ?? true) { query! += "&" }
-        query?.appendIfNotNil(fromDate) { "from_date=\($0.apiDateFormat())" }
-        
-        if !(query?.isEmpty ?? true) { query! += "&" }
-        query?.appendIfNotNil(toDate) { "to_date=\($0.apiDateFormat())"}
+        var query = ""
+        var isFirst = true
+        query.appendIfNotNil(status) {
+            isFirst = false
+            return "status=\($0)"
+        }
+
+        query.appendIfNotNil(fromDate) { "\(isFirst ? "" : "&")from_date=\($0.apiDateFormat())" }
+        query.appendIfNotNil(toDate) { "\(isFirst ? "" : "&")to_date=\($0.apiDateFormat())" }
+        self.query = query
     }
 }
 

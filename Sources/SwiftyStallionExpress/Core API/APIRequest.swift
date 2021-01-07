@@ -18,6 +18,12 @@ protocol APIRequest {
 
     var path: String { get }
     var method: HTTPMethod { get }
+    var contentType: String { get }
+
+    var query: String? { get }
+
+    func body() -> Data?
+    func request(api: API) -> URLRequest?
 }
 
 extension APIRequest {
@@ -49,7 +55,6 @@ extension APIRequest {
 
         request.addValue(contentType, forHTTPHeaderField: "Content-Type")
         request.addValue(api.token, forHTTPHeaderField: "Authorization")
-
 
         return request
     }
